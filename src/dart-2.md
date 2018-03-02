@@ -2,8 +2,8 @@
 title: Dart 2 Migration Guide
 description: Tips for migrating your web app from Dart 1.x to Dart 2.
 ---
-{% assign ng5-url = site.dev-url -%}
-{% assign ng5-desc = ' on the dev version of this site' -%}
+{% assign ng5-url = '' -%}
+{% assign ng5-desc = '' -%}
 
 <style>
 del { color: rgba(255,0,0,.35); }
@@ -19,7 +19,7 @@ These changes are necessary because of the following:
 
 - [Tooling changes](#tools):
   - **Chrome** replaces Dartium and content-shell.
-  - A **new build system** replaces `pub build` and `pub serve`.
+  - A **new build system** replaces `pub build`, `pub serve`, pub transformers.
 - Dart 2 [language and library changes.][dart-2]
 
 ## Tools
@@ -29,10 +29,11 @@ Here are the highlights:
 
 {:.table .table-striped}
 | **Dart 1.x** | **Dart 2** |
-| Dartium, content-shell | Chrome and [dartdevc][] |
-| `pub build` | `pub run build_runner build`. See: [build_runner][] |
-| `pub serve` | `pub run build_runner serve`. See: [build_runner][] |
-| `pub run angular_test` | `pub run build_runner test -- -p chrome`. See: [Running tests][]{{ng5-desc}}
+| Dartium, content shell | Chrome and [dartdevc][] |
+| `pub build` | `pub run build_runner build`. See: [build_runner build](/tools/build_runner#build) |
+| `pub serve` | `pub run build_runner serve`. See: [build_runner serve](/tools/build_runner#serve) |
+| `pub run angular_test` | `pub run build_runner test -- -p chrome`. See: [Running tests][]{{ng5-desc}} |
+| pub transformers | [build][] package transformers. See: [Transforming code][] |
 
 ## Code
 
@@ -93,7 +94,7 @@ with these changes applied.
   test with dartdevc.
 - [Getting started with build_runner:][Getting started with build_runner]
   Describes how to use the new build system. For example, it shows how to use
-  `build_runner` (instead of `pub serve`) as a development server.
+  `build_runner` as a development server.
 - [Changelog][Documentation changelog]{{ng5-desc}}:
   Lists changes made to this site's documentation and examples.
 
@@ -102,10 +103,11 @@ with these changes applied.
 [angular-examples/quickstart/pubspec.yaml]: https://github.com/angular-examples/quickstart/compare/master...5-dev#diff-2
 [angular-examples/quickstart/web/index.html]: https://github.com/angular-examples/quickstart/compare/master...5-dev#diff-4
 [angular-examples/toh-5]: https://github.com/angular-examples/toh-5/compare/master...5-dev
+[build]: https://github.com/dart-lang/build
 [build_runner]: https://pub.dartlang.org/packages/build_runner
 [dart-2]: {{site.dartlang}}/dart-2
-{% comment %}This should be {{ng5-url}}/tools/dartdevc, but there aren't enough differences in the pages at the moment, so we'll let it point to master for now.{% endcomment %}
 [dartdevc]: /tools/dartdevc
 [Documentation changelog]: {{ng5-url}}/changelog
 [Getting started with build_runner]: https://github.com/dart-lang/build/blob/master/docs/getting_started.md#getting-started-with-build_runner
 [Running tests]: {{ng5-url}}/angular/guide/testing/component/running-tests
+[Transforming code]: https://github.com/dart-lang/build/blob/master/docs/transforming_code.md
