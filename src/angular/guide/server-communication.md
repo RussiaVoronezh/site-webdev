@@ -43,10 +43,13 @@ The following code registers a [factory provider][]
   import 'package:http/http.dart';
   import 'package:server_communication/app_component.dart';
 
+  import 'main.template.dart' as ng;
+
   void main() {
-    bootstrap(AppComponent, [
+    bootstrapStatic(AppComponent, [
       provide(Client, useFactory: () => new BrowserClient(), deps: [])
-    ]);
+    ],
+    ng.initReflector);
   }
 ```
 

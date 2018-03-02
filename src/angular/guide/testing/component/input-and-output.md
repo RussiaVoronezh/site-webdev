@@ -10,6 +10,8 @@ nextpage:
   title: "Component Testing: Routing Components"
   url: /angular/guide/testing/component/routing-components
 ---
+{% include_relative _pageloader-mock-warning.md %}
+
 <?code-excerpt path-base="examples/ng/doc"?>
 
 {% include_relative _page-top-toc.md %}
@@ -41,7 +43,7 @@ the `HeroDetailComponent`:
           <input [(ngModel)]="hero.name" placeholder="name">
         </div>
       </div>''',
-    directives: const [CORE_DIRECTIVES, formDirectives],
+    directives: const [coreDirectives, formDirectives],
   )
   class HeroDetailComponent {
     @Input()
@@ -57,18 +59,18 @@ Here is the [page object][] for this component:
 
   import 'package:pageloader/objects.dart';
 
-  class HeroDetailPO {
+  class HeroDetailPO extends PageObjectBase {
     @FirstByCss('div h2')
     @optional
-    PageLoaderElement _title; // e.g. 'Mr Freeze details!'
+    PageLoaderElement get _title => q('div h2'); // e.g. 'Mr Freeze details!'
 
     @FirstByCss('div div')
     @optional
-    PageLoaderElement _id;
+    PageLoaderElement get _id => q('div div');
 
     @ByTagName('input')
     @optional
-    PageLoaderElement _input;
+    PageLoaderElement get _input => q('input');
 
     Future<Map> get heroFromDetails async {
       if (_id == null) return null;
@@ -120,7 +122,7 @@ basic [page object][] setup is sufficient to test for this case:
   group('No initial @Input() hero:', () {
     setUp(() async {
       fixture = await testBed.create();
-      po = await fixture.resolvePageObject(HeroDetailPO);
+      po = await new HeroDetailPO().resolve(fixture);
     });
 
     test('has empty view', () async {
@@ -145,7 +147,7 @@ named parameter `beforeChangeDetection` of the `NgTestBed.create()` method:
       fixture = await testBed.create(
           beforeChangeDetection: (c) =>
               c.hero = new Hero(targetHero['id'], targetHero['name']));
-      po = await fixture.resolvePageObject(HeroDetailPO);
+      po = await new HeroDetailPO().resolve(fixture);
     });
 
     test('show hero details', () async {
@@ -166,15 +168,15 @@ property was [explicitly initialized](#input-initialized):
   group('No initial @Input() hero:', () {
     setUp(() async {
       fixture = await testBed.create();
-      po = await fixture.resolvePageObject(HeroDetailPO);
+      po = await new HeroDetailPO().resolve(fixture);
     });
     // ···
 
     test('transition to ${targetHero['name']} hero', () async {
-      fixture.update((comp) {
+      await fixture.update((comp) {
         comp.hero = new Hero(targetHero['id'], targetHero['name']);
       });
-      po = await fixture.resolvePageObject(HeroDetailPO);
+      po = await new HeroDetailPO().resolve(fixture);
       expect(await po.heroFromDetails, targetHero);
     });
   });
@@ -204,11 +206,11 @@ For example, you might test the font [sizer component][], from the
       // ···
     });
 
-    test('@Output $expectedSize size event', () async {
-      fixture.update((c) async {
-        expect(await c.sizeChange.first, expectedSize);
-      });
-    });
+    test(
+        '@Output $expectedSize size event',
+        () => fixture.update((c) async {
+              expect(await c.sizeChange.first, expectedSize);
+            }));
   });
 ```
 

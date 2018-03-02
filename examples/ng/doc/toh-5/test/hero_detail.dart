@@ -1,4 +1,3 @@
-@Tags(const ['aot'])
 @TestOn('browser')
 
 import 'package:angular/angular.dart';
@@ -10,30 +9,27 @@ import 'package:mockito/mockito.dart';
 import 'package:test/test.dart';
 
 import 'hero_detail_po.dart';
+import 'utils.dart';
 
 NgTestFixture<HeroDetailComponent> fixture;
 HeroDetailPO po;
 
-class MockPlatformLocation extends Mock implements PlatformLocation {}
-
-final mockPlatformLocation = new MockPlatformLocation();
-
-@AngularEntrypoint()
+/// HeroDetail is simple enough that it can be tested without a router.
+/// Instead we only mock Location.
 void main() {
-  final baseProviders = new List.from(ROUTER_PROVIDERS)
-    ..addAll([
-      provide(APP_BASE_HREF, useValue: '/'),
-      provide(PlatformLocation, useValue: mockPlatformLocation),
-      provide(RouteParams, useValue: new RouteParams({})),
-      HeroService,
-    ]);
-  final testBed =
-      new NgTestBed<HeroDetailComponent>().addProviders(baseProviders);
+  final injector = new InjectorProbe();
+  final testBed = new NgTestBed<HeroDetailComponent>().addProviders([
+    const ClassProvider(HeroService),
+    const ClassProvider(Location, useClass: MockLocation),
+  ]).addInjector(injector.init);
+
+  setUp(() async {
+    fixture = await testBed.create();
+  });
 
   tearDown(disposeAnyRunningTest);
 
   test('No initial hero results in an empty view', () async {
-    fixture = await testBed.create();
     expect(fixture.rootElement.text.trim(), '');
   });
 
@@ -42,12 +38,12 @@ void main() {
   group('${targetHero['name']} initial hero:', () {
     final Map updatedHero = {'id': targetHero['id']};
 
+    final mockRouterState = new MockRouterState();
+    when(mockRouterState.parameters).thenReturn({'id': '${targetHero['id']}'});
+
     setUp(() async {
-      final groupTestBed = testBed.fork().addProviders([
-        provide(RouteParams, useValue: new RouteParams({'id': '15'}))
-      ]);
-      fixture = await groupTestBed.create();
-      po = await fixture.resolvePageObject(HeroDetailPO);
+      await fixture.update((c) => c.onActivate(null, mockRouterState));
+      po = await new HeroDetailPO().resolve(fixture);
     });
 
     test('show hero details', () async {
@@ -62,8 +58,15 @@ void main() {
     });
 
     test('back button', () async {
+      final mockLocation = injector.get<MockLocation>(Location);
+      clearInteractions(mockLocation);
       await po.back();
-      verify(mockPlatformLocation.back());
+      verify(mockLocation.back());
     });
   });
 }
+
+@Injectable()
+class MockLocation extends Mock implements Location {}
+
+class MockRouterState extends Mock implements RouterState {}
