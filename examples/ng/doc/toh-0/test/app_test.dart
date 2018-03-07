@@ -1,16 +1,25 @@
 // #docregion , initial
 @TestOn('browser')
 
+import 'package:angular/angular.dart';
 import 'package:angular_test/angular_test.dart';
 import 'package:angular_tour_of_heroes/app_component.dart';
+import 'package:angular_tour_of_heroes/app_component.template.dart' as app_aot;
 import 'package:test/test.dart';
 
-import 'app_test.template.dart' as ng;
+import 'app_test.template.dart' as aot;
+
+@GenerateInjector(const [
+  const ClassProvider(AppComponent),
+])
+final InjectorFactory rootInjectorFactory = aot.rootInjectorFactory$Injector;
 
 void main() {
-  ng.initReflector();
   // #docregion test-bed-and-fixture
-  final testBed = new NgTestBed<AppComponent>();
+  final testBed = NgTestBed.forComponent<AppComponent>(
+    app_aot.AppComponentNgFactory,
+    rootInjector: rootInjectorFactory,
+  );
   NgTestFixture<AppComponent> fixture;
   // #enddocregion test-bed-and-fixture
 
