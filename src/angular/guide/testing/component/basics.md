@@ -52,12 +52,17 @@ You can also use other [test][] package features, like [group()][], to write you
 
 ## Test fixture, setup and teardown
 
-Component tests must explicitly define the **component under test**. You define it by passing the component class name as a generic type argument to the [NgTestBed][] and [NgTestFixture][] classes:
+Component tests must explicitly define the **component under test**. You define
+it by passing the component class name as a generic type argument to the
+[NgTestBed][] factory method and [NgTestFixture][] the class:
 
-<?code-excerpt "toh-0/test/app_test.dart (test bed and fixture)" title?>
+<?code-excerpt "toh-0/test/app_test.dart (test bed and fixture)" title replace="/AppComponent\b/[!$&!]/g"?>
 ```
-  final testBed = new NgTestBed<AppComponent>();
-  NgTestFixture<AppComponent> fixture;
+  final testBed = NgTestBed.forComponent<[!AppComponent!]>(
+    app_aot.AppComponentNgFactory,
+    rootInjector: rootInjectorFactory,
+  );
+  NgTestFixture<[!AppComponent!]> fixture;
 ```
 
 You'll generally initialize the fixture in a `setUp()` function.
@@ -65,19 +70,30 @@ Since component tests are often asynchronous, the `tearDown()` function
 generally instructs the test framework to dispose of any running tests
 before it moves on to the next test group, if any. Here is an example:
 
+{% comment %}TODO: describe `@GenerateInjector`{% endcomment %}
+
 <?code-excerpt "toh-0/test/app_test.dart (excerpt)" region="initial" title?>
 ```
   @TestOn('browser')
 
+  import 'package:angular/angular.dart';
   import 'package:angular_test/angular_test.dart';
   import 'package:angular_tour_of_heroes/app_component.dart';
+  import 'package:angular_tour_of_heroes/app_component.template.dart' as app_aot;
   import 'package:test/test.dart';
 
-  import 'app_test.template.dart' as ng;
+  import 'app_test.template.dart' as aot;
+
+  @GenerateInjector(const [
+    const ClassProvider(AppComponent),
+  ])
+  final InjectorFactory rootInjectorFactory = aot.rootInjectorFactory$Injector;
 
   void main() {
-    ng.initReflector();
-    final testBed = new NgTestBed<AppComponent>();
+    final testBed = NgTestBed.forComponent<AppComponent>(
+      app_aot.AppComponentNgFactory,
+      rootInjector: rootInjectorFactory,
+    );
     NgTestFixture<AppComponent> fixture;
 
     setUp(() async {

@@ -25,29 +25,38 @@ tutorial's [Starter App](/angular/tutorial/toh-pt0).
 The [tutorial](/angular/tutorial)'s [Starter App](/angular/tutorial/toh-pt0)
 includes a few basic tests for its `AppComponent` in the following test file:
 
-<?code-excerpt "toh-0/test/app_test.dart (excerpt)" region="initial" title?>
+<?code-excerpt "toh-0/test/app_test.dart (excerpt)" region="initial" title replace="/fixture|setUp|tearDown/[!$&!]/g"?>
 ```
   @TestOn('browser')
 
+  import 'package:angular/angular.dart';
   import 'package:angular_test/angular_test.dart';
   import 'package:angular_tour_of_heroes/app_component.dart';
+  import 'package:angular_tour_of_heroes/app_component.template.dart' as app_aot;
   import 'package:test/test.dart';
 
-  import 'app_test.template.dart' as ng;
+  import 'app_test.template.dart' as aot;
+
+  @GenerateInjector(const [
+    const ClassProvider(AppComponent),
+  ])
+  final InjectorFactory rootInjectorFactory = aot.rootInjectorFactory$Injector;
 
   void main() {
-    ng.initReflector();
-    final testBed = new NgTestBed<AppComponent>();
-    NgTestFixture<AppComponent> fixture;
+    final testBed = NgTestBed.forComponent<AppComponent>(
+      app_aot.AppComponentNgFactory,
+      rootInjector: rootInjectorFactory,
+    );
+    NgTestFixture<AppComponent> [!fixture!];
 
-    setUp(() async {
-      fixture = await testBed.create();
+    [!setUp!](() async {
+      [!fixture!] = await testBed.create();
     });
 
-    tearDown(disposeAnyRunningTest);
+    [!tearDown!](disposeAnyRunningTest);
 
     test('Default greeting', () {
-      expect(fixture.text, 'Hello Angular');
+      expect([!fixture!].text, 'Hello Angular');
     });
     // ···
   }
