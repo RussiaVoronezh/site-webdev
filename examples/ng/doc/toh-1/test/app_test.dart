@@ -2,12 +2,14 @@
 @TestOn('browser')
 import 'dart:async';
 
+import 'package:angular/angular.dart';
 import 'package:angular_test/angular_test.dart';
 import 'package:angular_tour_of_heroes/app_component.dart';
+import 'package:angular_tour_of_heroes/app_component.template.dart' as app_aot;
 import 'package:pageloader/objects.dart';
 import 'package:test/test.dart';
 
-import 'app_test.template.dart' as ng;
+import 'app_test.template.dart' as aot;
 
 // #docregion AppPO, AppPO-initial, AppPO-hero, AppPO-input
 class AppPO extends PageObjectBase {
@@ -51,10 +53,17 @@ class AppPO extends PageObjectBase {
 }
 // #enddocregion AppPO, AppPO-initial, AppPO-hero, AppPO-input
 
+@GenerateInjector(const [
+  const ClassProvider(AppComponent),
+])
+final InjectorFactory rootInjectorFactory = aot.rootInjectorFactory$Injector;
+
 void main() {
-  ng.initReflector();
   // #docregion appPO-setup
-  final testBed = new NgTestBed<AppComponent>();
+  final testBed = NgTestBed.forComponent<AppComponent>(
+    app_aot.AppComponentNgFactory,
+    rootInjector: rootInjectorFactory,
+  );
   NgTestFixture<AppComponent> fixture;
   AppPO appPO;
 
