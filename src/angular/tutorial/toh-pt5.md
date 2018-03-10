@@ -916,11 +916,17 @@ Add the following HTML fragment at the bottom of the template where the `<hero-d
   </div>
 ```
 
-Add the following method stub to `HeroesComponent`:
+Add the following import and method stub to `HeroesComponent`:
 
-<?code-excerpt "lib/src/heroes_component.dart (gotoDetail stub)" title replace="/(=\x3E).*/$1 null;/g"?>
+<?code-excerpt "lib/src/heroes_component.dart (gotoDetail stub)" title replace="/(\n.*?=\x3E).*/\n  \/\/ ...$1 null;\n  \/\/ .../g"?>
 ```
-  Future<NavigationResult> gotoDetail() => null;
+  import 'package:angular_router/angular_router.dart';
+
+  class HeroesComponent implements OnInit {
+    // ...
+    Future<NavigationResult> gotoDetail() => null;
+    // ...
+  }
 ```
 
 After clicking a hero (but don't try now since it won't work yet), users should see something like this below the hero list:
@@ -967,7 +973,6 @@ by telling the router where to go.
 
 This approach requires the following changes to the component class:
 
-1. Import the [angular_router][].
 1. Inject the `Router` in the constructor, along with the `HeroService`.
 1. Implement `gotoDetail()` by calling the router `navigate()` method.
 

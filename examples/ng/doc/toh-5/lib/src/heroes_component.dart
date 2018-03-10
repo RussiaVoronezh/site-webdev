@@ -3,8 +3,10 @@
 import 'dart:async';
 
 import 'package:angular/angular.dart';
+// #docregion gotoDetail-stub
 import 'package:angular_router/angular_router.dart';
 
+// #enddocregion gotoDetail-stub
 import 'hero.dart';
 import 'hero_service.dart';
 
@@ -21,9 +23,9 @@ import 'hero_service.dart';
   // #docregion renaming
 )
 // #enddocregion metadata, pipes
-// #docregion class
+// #docregion class, gotoDetail-stub
 class HeroesComponent implements OnInit {
-  // #enddocregion renaming
+  // #enddocregion renaming, gotoDetail-stub
   final HeroService _heroService;
   final Router _router;
   List<Hero> heroes;
@@ -51,5 +53,5 @@ class HeroesComponent implements OnInit {
       // #enddocregion gotoDetail-stub
       _router.navigate('/detail/${selectedHero.id}');
   // #enddocregion gotoDetail
-  // #docregion renaming
+  // #docregion renaming, gotoDetail-stub
 }

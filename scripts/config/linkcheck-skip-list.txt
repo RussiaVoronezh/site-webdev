@@ -2,6 +2,7 @@
 # =======
 
 # Temporary as we transition to angular_router 2:
+/angular/guide/router/
 /api/angular_router/angular_router/(Route|RouteConfig|RouteParams|OnReuse)-class
 /api/angular_router/angular_router/(ROUTER_DIRECTIVES|ROUTER_PRIMARY_COMPONENT|ROUTER_PROVIDERS)
 
