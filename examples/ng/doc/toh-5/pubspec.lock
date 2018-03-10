@@ -384,7 +384,7 @@ packages:
     description:
       path: "examples/util/pageloader"
       ref: "5-dev"
-      resolved-ref: "43f1e0a3dc1fab33dca1e19e7e132c1e2cc4ca66"
+      resolved-ref: "2b3e5b12f91a6fe0ae392f3251e4aeec79c736fe"
       url: "https://github.com/dart-lang/site-webdev.git"
     source: git
     version: "0.0.1"
