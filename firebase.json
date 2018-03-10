@@ -30,7 +30,9 @@
       { "source": "/codelabs/darrrt", "destination": "/codelabs", "type": 301 },
       { "source": "/codelabs/darrrt/**", "destination": "/codelabs", "type": 301 },
       { "source": "/codelabs/ng2", "destination": "/codelabs", "type": 301 },
-      { "source": "/codelabs/ng2/**", "destination": "/codelabs", "type": 301 }
+      { "source": "/codelabs/ng2/**", "destination": "/codelabs", "type": 301 },
+
+      { "source": "/angular/guide/router/**", "destination": "/angular/guide/router", "type": 301 }
 
     ],
     "rewrites": [
