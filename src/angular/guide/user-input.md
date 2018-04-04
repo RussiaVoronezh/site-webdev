@@ -326,9 +326,8 @@ Below is the "Little Tour of Heroes"  component.
     List<String> heroes = ['Windstorm', 'Bombasto', 'Magneta', 'Tornado'];
 
     void addHero(String newHero) {
-      if (newHero?.length > 0) {
-        heroes.add(newHero);
-      }
+      if (newHero == null || newHero.isEmpty) return;
+      heroes.add(newHero);
     }
   }
 ```

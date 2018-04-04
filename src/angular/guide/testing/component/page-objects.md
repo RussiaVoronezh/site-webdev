@@ -220,8 +220,7 @@ you might define the PO `heroId` and `heroName` fields like this:
 ```
 
 The page object extracts the id from text that follows the "id:" label in
-the first `<div>`, and the hero name from the `<h2>` text, dropping the
-"details!" suffix.
+the first `<div>`, and the hero name from the `<h2>` text.
 
 ## PO _List_ fields
 
