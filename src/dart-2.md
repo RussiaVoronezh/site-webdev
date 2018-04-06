@@ -89,12 +89,6 @@ with these changes applied.
 
 - [Dart 2 Updates:][dart-2]
   Information about changes in Dart 2, and how to migrate your code from Dart 1.x.
-- [dartdevc: The Dart Dev Compiler][dartdevc]:
-  Describes how to prepare your code for dartdevc, build with dartdevc, and
-  test with dartdevc.
-- [Getting started with build_runner:][Getting started with build_runner]
-  Describes how to use the new build system. For example, it shows how to use
-  `build_runner` as a development server.
 - [Changelog][Documentation changelog]{{ng5-desc}}:
   Lists changes made to this site's documentation and examples.
 

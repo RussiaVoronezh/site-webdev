@@ -52,7 +52,7 @@ $ pub run build_runner build --define "build_web_compilers|entrypoint=compiler=d
 ```
 
 Alternatively, you can use a [build config file](#config), as described below.
-For more information see [Switching to dart2js][] on the [Getting started with build_runner][] page.
+For more information, see [Switching to dart2js.][Switching to dart2js]
 
 <a id="serve"></a>
 ## Command: serve
@@ -114,6 +114,7 @@ Here's an example of what that file might contain:
 
 ## More information
 
+- [Getting started with build_runner][]
 - [Running component tests][]
 
 [build_runner]: https://pub.dartlang.org/packages/build_runner
