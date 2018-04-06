@@ -62,6 +62,7 @@ defaults:
     path: angular
   values:
     diff2html: true
+    layout: angular
 - scope:
     path: angular/guide/router
   values:

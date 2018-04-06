@@ -20,7 +20,7 @@ import 'route_paths.dart' as paths;
 // #docregion CanReuse
 class CrisisComponent extends Object
     with CanReuse, InstanceLogger
-    implements CanDeactivate, OnActivate, OnDeactivate {
+    implements CanDeactivate, CanNavigate, OnActivate, OnDeactivate {
   // #enddocregion CanReuse
   Crisis crisis;
   String name;
@@ -74,12 +74,20 @@ class CrisisComponent extends Object
   // #enddocregion goBack
 
   @override
+  // #docregion canNavigate, OnActivate-and-OnDeactivate
+  Future<bool> canNavigate() async {
+    log('canNavigate: ${crisis?.name} == $name?');
+    return crisis?.name == name ||
+        await _dialogService.confirm('Discard changes?');
+  }
+  // #enddocregion canNavigate, OnActivate-and-OnDeactivate
+
+  @override
+  // For illustration purposes only; this method is not used in the component.
   // #docregion canDeactivate
-  Future<bool> canDeactivate(RouterState prev, RouterState next) async {
-    log('canDeactivate: ${prev?.toUrl()} -> ${next?.toUrl()}; ${crisis?.name} == $name?');
-    return crisis == null || crisis?.name == name
-        ? true
-        : _dialogService.confirm('Discard changes?');
+  Future<bool> canDeactivate(RouterState current, RouterState next) async {
+    log('canDeactivate: ${current?.toUrl()} -> ${next?.toUrl()}');
+    return true;
   }
   // #enddocregion canDeactivate
   // #docregion CanReuse

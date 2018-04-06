@@ -1,5 +1,4 @@
 ---
-layout: angular
 title: Routing Overview
 description: Overview of core router features
 sideNavGroup: advanced
@@ -79,7 +78,7 @@ You'll learn many router details in this guide which covers
 * Confirming or canceling navigation with [guards](#guards)
   * [CanActivate](#can-activate-guard) to prevent navigation to a route
   * [CanActivateChild](#can-activate-child-guard) to prevent navigation to a child route
-  * [CanDeactivate](#can-deactivate-guard) to prevent navigation away from the current route
+  * [CanDeactivate](#can-deactivate) to prevent navigation away from the current route
   * [Resolve](#resolve-guard) to pre-fetch data before activating a route
   * [CanLoad](#can-load-guard) to prevent asynchronous routing
 * Providing optional information across routes with [query parameters](#query-parameters)
